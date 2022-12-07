@@ -1,27 +1,58 @@
 const express = require('express');
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+
 app.get("/produtos", (req, res) => {
-    res.send("Listar produtos");
+    const lista = [
+        {
+            id: 1,
+            nome: "Produto 1",
+            preco: 10
+        },
+        {
+            id: 2,
+            nome: "Produto 2",
+            preco: 20
+        }
+    ];
+    res.json(lista);
+
 })
 
 app.get("/produtos/:id", (req, res) => {
     const id = req.params.id;
-    res.send("Buscar produto: "+ id);
+
+    const produto = {
+        id: id,
+        nome: "Produto 2",
+        preco: 20
+    }
+    res.json(produto);
 })
 
 app.post("/produtos", (req, res) => {
-    res.send("Inserir produto");
+    let produto = req.body;
+    produto.id = 1;
+    res.status(201).json(produto);
 })
 
 app.put("/produtos/:id", (req, res) => {
     const id = req.params.id;
-    res.send("Atualizar produto: "+id);
+    let produto = req.body;
+    produto.id = id;
+    res.json(produto);
 })
 
 app.delete("/produtos/:id", (req, res) => {
     const id = req.params.id;
-    res.send("Deletar produto: "+ id);
+    const produto = {
+        id: id,
+        nome: "Produto 2",
+        preco: 20
+    }
+    res.json(produto);
 })
 
 app.listen(3000, () => {
